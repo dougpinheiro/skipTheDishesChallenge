@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 
 import dougpinheiro.skip.challenge.model.entity.ClientOrders;
 import dougpinheiro.skip.challenge.repository.ClientOrdersRepository;
-import dougpinheiro.skip.challenge.repository.ProductRepository;
 
 @Controller
 public class ClientOrdersController {
@@ -26,7 +25,7 @@ public class ClientOrdersController {
 	
 	public List<ClientOrders> getClientOrdersByOrderId(Long id){
 		return getAllClientOrders().stream().filter((p)->{
-			if(id == p.getId_order()) {
+			if(id == p.getClientOrder().getIdClientOrder()) {
 				return true;
 			}else {
 				return false;

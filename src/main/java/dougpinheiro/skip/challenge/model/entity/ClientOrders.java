@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,31 +18,27 @@ public class ClientOrders implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@Column(name = "ID", updatable = false, nullable = false)
+	private Long idClientOrders;
 	
-	@Column(name = "ID_PRODUCT")
-	private Long id_product;
-
-	@Column(name = "ID_ORDER")
-	private Long id_order;
-
-	public ClientOrders(Long id_product, Long id_order) {
-		super();
-		this.id_product = id_product;
-		this.id_order = id_order;
-	}
+	@ManyToOne
+	@JoinColumn(name="idProduct")
+	private Product product;
+	
+	@ManyToOne
+	@JoinColumn(name="idClientOrder")
+	private ClientOrder clientOrder;
 
 	public ClientOrders() {
 		super();
 	}
 
 	public Long getId() {
-		return this.id;
+		return this.idClientOrders;
 	}
 
 	public void setId(final Long id) {
-		this.id = id;
+		this.idClientOrders = id;
 	}
 
 	@Override
@@ -52,8 +50,8 @@ public class ClientOrders implements Serializable {
 			return false;
 		}
 		ClientOrders other = (ClientOrders) obj;
-		if (id != null) {
-			if (!id.equals(other.id)) {
+		if (idClientOrders != null) {
+			if (!idClientOrders.equals(other.idClientOrders)) {
 				return false;
 			}
 		}
@@ -64,33 +62,45 @@ public class ClientOrders implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idClientOrders == null) ? 0 : idClientOrders.hashCode());
 		return result;
 	}
 
-	public Long getId_product() {
-		return id_product;
+
+	public ClientOrders(Long idClientOrders, Product product, ClientOrder clientOrder) {
+		super();
+		this.idClientOrders = idClientOrders;
+		this.product = product;
+		this.clientOrder = clientOrder;
 	}
 
-	public void setId_product(Long id_product) {
-		this.id_product = id_product;
+	public ClientOrders(Product product, ClientOrder clientOrder) {
+		super();
+		this.product = product;
+		this.clientOrder = clientOrder;
 	}
 
-	public Long getId_order() {
-		return id_order;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setId_order(Long id_order) {
-		this.id_order = id_order;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (id_product != null)
-			result += "id_product: " + id_product;
-		if (id_order != null)
-			result += ", id_order: " + id_order;
-		return result;
+	public Long getIdClientOrders() {
+		return idClientOrders;
+	}
+
+	public void setIdClientOrders(Long idClientOrders) {
+		this.idClientOrders = idClientOrders;
+	}
+
+	public ClientOrder getClientOrder() {
+		return clientOrder;
+	}
+
+	public void setClientOrder(ClientOrder clientOrder) {
+		this.clientOrder = clientOrder;
 	}
 }

@@ -1,9 +1,8 @@
 package dougpinheiro.skip.challenge;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.springframework.boot.SpringApplication;
@@ -14,7 +13,6 @@ import dougpinheiro.skip.challenge.controller.AuthenticationController;
 import dougpinheiro.skip.challenge.controller.ClientOrderController;
 import dougpinheiro.skip.challenge.controller.ClientOrdersController;
 import dougpinheiro.skip.challenge.controller.ProductController;
-import dougpinheiro.skip.challenge.model.data.Status;
 import dougpinheiro.skip.challenge.model.entity.ClientOrder;
 import dougpinheiro.skip.challenge.model.entity.ClientOrders;
 import dougpinheiro.skip.challenge.model.entity.Login;
@@ -41,7 +39,7 @@ public class ChallengeApplication {
 		
 		ProductController pc = (ProductController) ctx.getBean("productController");
 		
-		Stream<Integer> ids = Stream.iterate(1, n  ->  n  + 1).limit(100);
+		Stream<Integer> ids = Stream.iterate(1, n  ->  n  + 1).limit(15);
 		
 		DecimalFormat df = new DecimalFormat("$#.##");
 		
@@ -62,59 +60,55 @@ public class ChallengeApplication {
 		System.out.println("#################################################################");
 		System.out.println("Creating an order...");
 		
-		ClientOrder myOrder = new ClientOrder(new Date(), Status.NEW);
+		ClientOrder myOrder = new ClientOrder();
+		Set<ClientOrders> registration = new HashSet<ClientOrders>();
+
+		ClientOrderController clientOrderController = (ClientOrderController) ctx.getBean("clientOrderController");
+		clientOrderController.createOrder(myOrder);
 		
-		ClientOrderController corderc = (ClientOrderController) ctx.getBean("clientOrderController");
-		corderc.save(myOrder);
+		//get a sort of products
+		//register all the products to the order
 		
-		Stream<Integer> productsPerOrder = Stream.iterate(1, n  ->  n  + 1).limit(Math.round(Math.random()*5));
+		Stream<Integer> qtdProducts = Stream.iterate(1, (x) -> x+1).limit(Math.round(Math.random()*10));
 		
-		ClientOrdersController coc = (ClientOrdersController) ctx.getBean("clientOrdersController");
-		
-		productsPerOrder.forEach((p)->{
-			Integer i = (int) (Math.random() * pc.getAllProducts().size());
-			Product pTemp = pc.getAllProducts().get(i);
-			ClientOrders co = new ClientOrders(pTemp.getId(), myOrder.getId());
-			coc.save(co);
-			
+		qtdProducts.forEach((c)->{
+			if(Math.round(Math.random()*pc.getAllProducts().size()) > 0) {
+				ClientOrders co = new ClientOrders(pc.findById(Math.round(Math.random()*pc.getAllProducts().size())), myOrder);
+				ClientOrdersController coc = (ClientOrdersController) ctx.getBean("clientOrdersController");
+				coc.save(co);
+				registration.add(co);
+			}
 		});
 		
-		corderc.createOrder(myOrder);
+		myOrder.setClientOrders(registration);
+		
 		System.out.println("Order created!");
 		System.out.println("#################################################################\n\n\n");
 		System.out.println("#################################################################");
 		
 		System.out.println("Showing order...");
 		
-		System.out.println("ORDER : "+myOrder.getId());
-		System.out.println("ORDER_TIME : "+myOrder.getOrderTime().toGMTString());
+		System.out.println("ORDER : "+myOrder.getIdClientOrder());
+		System.out.println("ORDER_TIME : "+myOrder.getOrderTime().toString());
 		System.out.println("STATUS : "+myOrder.getStatus());
-		System.out.println("PRODUCTS: ------------------------");
+		System.out.println("PRODUCTS: ------------------------------------------------------");
 		
-		List<Product> prods_order = new ArrayList<Product>();
-		coc.getAllClientOrders().stream().filter((p)->{
-			if(p.getId_order() == myOrder.getId()) {
-				return true;
-			}else {
-				return false;
-			}
-		}).forEach((p2)->{
-			if(p2.getId_product() != null) {
-				System.out.println(pc.findById(p2.getId_product()).getDescription());
-			}
+		//list all products from the order
+		myOrder.getClientOrders().stream().forEach((c) -> {
+			System.out.println(c.getProduct().getDescription());
 		});
 		
 		System.out.println("#################################################################\n\n\n");
 		System.out.println("#################################################################");
 		
 		System.out.println("Canceling the order...");
-		corderc.cancelOrder(myOrder);
+		clientOrderController.cancelOrder(myOrder);
 		System.out.println("Order Canceled");
 		System.out.println("#################################################################\n\n\n");
 		
 		System.out.println("#################################################################");
 		System.out.println("Checking order status...");
-		System.out.println("Order "+myOrder.getId()+" - "+myOrder.getStatus());
+		System.out.println("Order "+myOrder.getIdClientOrder()+" - "+myOrder.getStatus());
 		System.out.println("#################################################################");
 		
 		

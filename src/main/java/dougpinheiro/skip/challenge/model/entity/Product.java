@@ -19,20 +19,20 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@Column(name = "ID", updatable = false, nullable = false)
+	private Long idProduct;
 
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column
+	@Column(name="COST")
 	private double cost;	
 	
 	@OneToMany
 	private Set<ClientOrders> clientOrders; 
 	
 	public Long getId() {
-		return this.id;
+		return this.idProduct;
 	}
 	
 	public Product(String description, double cost) {
@@ -46,7 +46,7 @@ public class Product implements Serializable {
 	}
 
 	public void setId(final Long id) {
-		this.id = id;
+		this.idProduct = id;
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public class Product implements Serializable {
 			return false;
 		}
 		Product other = (Product) obj;
-		if (id != null) {
-			if (!id.equals(other.id)) {
+		if (idProduct != null) {
+			if (!idProduct.equals(other.idProduct)) {
 				return false;
 			}
 		}
@@ -70,7 +70,7 @@ public class Product implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idProduct == null) ? 0 : idProduct.hashCode());
 		return result;
 	}
 
@@ -98,6 +98,22 @@ public class Product implements Serializable {
 		DecimalFormat df = new DecimalFormat("$#.##");
 		result += ", cost: " + df.format(cost);
 		return result;
+	}
+
+	public Long getIdProduct() {
+		return idProduct;
+	}
+
+	public void setIdProduct(Long idProduct) {
+		this.idProduct = idProduct;
+	}
+
+	public Set<ClientOrders> getClientOrders() {
+		return clientOrders;
+	}
+
+	public void setClientOrders(Set<ClientOrders> clientOrders) {
+		this.clientOrders = clientOrders;
 	}
 
 }

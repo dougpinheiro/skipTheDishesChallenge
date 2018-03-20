@@ -7,6 +7,7 @@ import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,6 +43,13 @@ public class CustomerController {
 	@RequestMapping(value="/api/v1/Customer", produces= {"application/json"}, method=RequestMethod.POST)
 	public ResponseEntity<Customer> save(@RequestBody Customer customer) {
 		Customer c = customerRepository.save(customer);
+		return new ResponseEntity<Customer>(c, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/api/v1/Customer/{customerId}", produces= {"application/json"}, method=RequestMethod.GET)
+	public ResponseEntity<Customer> findCustomerById(@PathVariable("customerId") Integer customerId) {
+		Customer c = new Customer();
+		c = customerRepository.findById(customerId).isPresent() ? customerRepository.findById(customerId).get() : new Customer();
 		return new ResponseEntity<Customer>(c, HttpStatus.OK);
 	}
 	

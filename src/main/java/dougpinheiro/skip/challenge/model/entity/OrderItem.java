@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,7 +26,7 @@ public class OrderItem implements Serializable {
 	@Column(length = 64, name = "ID")
 	private Integer id;
 	
-	@OneToOne
+	@ManyToOne
 	@JsonIgnore
 	private Order order;
 
@@ -108,6 +111,12 @@ public class OrderItem implements Serializable {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderItem [id=" + id + ", order=" + order + ", product=" + product + ", price=" + price + ", total="
+				+ total + ", quantity=" + quantity + "]";
 	}
 
 }

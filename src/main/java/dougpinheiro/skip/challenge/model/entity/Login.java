@@ -86,5 +86,10 @@ public class Login {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	@Override
+	public String toString() {
+		return "Login [id=" + id + ", login=" + login + ", password=" + password + ", customer=" + customer + "]";
+	}
 	
 }

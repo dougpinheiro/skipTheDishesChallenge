@@ -29,7 +29,7 @@ public class Store implements Serializable {
 	@OneToMany
 	private List<Order> orders;
 	
-	@OneToMany(mappedBy="store")
+	@OneToMany
 	private List<Product> products;
 	
 	@ManyToOne
@@ -88,6 +88,12 @@ public class Store implements Serializable {
 
 	public void setCousine(Cousine cousine) {
 		this.cousine = cousine;
+	}
+
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", orders=" + orders + ", products=" + products + ", cousine="
+				+ cousine + "]";
 	}
 	
 }

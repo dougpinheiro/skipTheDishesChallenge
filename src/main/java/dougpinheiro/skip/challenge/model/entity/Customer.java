@@ -134,4 +134,10 @@ public class Customer implements Serializable {
 		this.password = new String(Base64.getEncoder().encode(MessageDigest.getInstance("MD5").digest(password.getBytes())));;
 	}
 
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", email=" + email + ", name=" + name + ", address=" + address + ", password="
+				+ password + ", creation=" + creation + ", orders=" + orders + "]";
+	}
+
 }

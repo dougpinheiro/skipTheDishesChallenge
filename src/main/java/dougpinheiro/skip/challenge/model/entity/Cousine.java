@@ -67,4 +67,9 @@ public class Cousine implements Serializable {
 		this.stores = stores;
 	}
 
+	@Override
+	public String toString() {
+		return "Cousine [id=" + id + ", type=" + type + ", stores=" + stores + "]";
+	}
+
 }

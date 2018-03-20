@@ -28,6 +28,13 @@ public class OrderController {
 		return new ResponseEntity<Order>(o, HttpStatus.OK);
 	}
 
+	@RequestMapping(value="/api/v1/Order/{orderId}", produces= {"application/json"}, method=RequestMethod.DELETE)
+	public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") Integer orderId) {
+		Order o = orderRepository.findById(orderId).isPresent() ? orderRepository.findById(orderId).get() : new Order();
+		o.setStatus("CANCELED");
+		return new ResponseEntity<Order>(o, HttpStatus.OK);
+	}
+
 	@RequestMapping(value="/api/v1/Order", produces= {"application/json"}, method=RequestMethod.POST)
 	public ResponseEntity<Order> save(@RequestBody Order order) {
 		Order o = new Order();

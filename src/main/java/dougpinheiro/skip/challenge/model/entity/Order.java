@@ -164,5 +164,12 @@ public class Order implements Serializable {
 		this.orderItems = orderItems;
 	}
 
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", date=" + date + ", deliveryAddress=" + deliveryAddress + ", contact=" + contact
+				+ ", total=" + total + ", status=" + status + ", lastUpdate=" + lastUpdate + ", store=" + store
+				+ ", customer=" + customer + ", orderItems=" + orderItems + "]";
+	}
+
 
 }

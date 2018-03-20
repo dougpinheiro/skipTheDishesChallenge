@@ -72,5 +72,10 @@ public class StoreCousine implements Serializable {
 		this.cousine = cousine;
 	}
 
+	@Override
+	public String toString() {
+		return "StoreCousine [id=" + id + ", store=" + store + ", cousine=" + cousine + "]";
+	}
+
 
 }

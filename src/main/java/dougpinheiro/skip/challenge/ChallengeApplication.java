@@ -1,29 +1,20 @@
 package dougpinheiro.skip.challenge;
 
-import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Stream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import dougpinheiro.skip.challenge.controller.AuthenticationController;
-import dougpinheiro.skip.challenge.controller.ClientOrderController;
-import dougpinheiro.skip.challenge.controller.ClientOrdersController;
-import dougpinheiro.skip.challenge.controller.ProductController;
-import dougpinheiro.skip.challenge.model.entity.ClientOrder;
-import dougpinheiro.skip.challenge.model.entity.ClientOrders;
-import dougpinheiro.skip.challenge.model.entity.Login;
-import dougpinheiro.skip.challenge.model.entity.Product;
-
 @SpringBootApplication
 public class ChallengeApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NoSuchAlgorithmException {
 		ApplicationContext ctx = SpringApplication.run(ChallengeApplication.class, args);
-		AuthenticationController ac = (AuthenticationController) ctx.getBean("authenticationController");
+		System.out.println(new String(Base64.getEncoder().encode(MessageDigest.getInstance("MD5").digest(new String("12345").getBytes()))));
+		/*AuthenticationController ac = (AuthenticationController) ctx.getBean("authenticationController");
 		
 		
 		System.out.println("#################################################################");
@@ -109,7 +100,7 @@ public class ChallengeApplication {
 		System.out.println("#################################################################");
 		System.out.println("Checking order status...");
 		System.out.println("Order "+myOrder.getIdClientOrder()+" - "+myOrder.getStatus());
-		System.out.println("#################################################################");
+		System.out.println("#################################################################");*/
 		
 		
 	}

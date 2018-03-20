@@ -3,31 +3,38 @@ package dougpinheiro.skip.challenge.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import dougpinheiro.skip.challenge.model.entity.Product;
 import dougpinheiro.skip.challenge.repository.ProductRepository;
 
-@Controller
+@RestController
 public class ProductController {
 
 	@Autowired
 	private ProductRepository productRepository;
 	
-	@RequestMapping(value="/insertproduct", method=RequestMethod.POST)
-	public void insertProduct(@RequestBody Product product) {
-		productRepository.save(product);
+	@RequestMapping(value="/api/v1/Product", produces= {"application/json"}, method=RequestMethod.GET)
+	public ResponseEntity<List<Product>> findAllProducts(){
+		List<Product> products = productRepository.findAll();
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
-	
-	public List<Product> getAllProducts(){
-		return (List<Product>) productRepository.findAll();
+
+	@RequestMapping(value="/api/v1/Product/search/{searchText}", produces= {"application/json"}, method=RequestMethod.GET)
+	public ResponseEntity<List<Product>> search(@PathVariable("searchText") String searchText){
+		List<Product> products = productRepository.findByDescriptionLikeIgnoreCase(searchText);
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
-	
-	public Product findById(Long id) {
-		return productRepository.findById(id).get();
-	}	
+
+	@RequestMapping(value="/api/v1/Product/{productId}", produces= {"application/json"}, method=RequestMethod.GET)
+	public ResponseEntity<Product> findProductById(@PathVariable("pruductId") Integer id){
+		Product product = productRepository.findById(id).get();
+		return new ResponseEntity<Product>(product, HttpStatus.OK);
+	}
 	
 }

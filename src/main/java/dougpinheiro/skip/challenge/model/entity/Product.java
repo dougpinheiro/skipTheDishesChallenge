@@ -1,15 +1,13 @@
 package dougpinheiro.skip.challenge.model.entity;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,61 +15,51 @@ import javax.persistence.Table;
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID", updatable = false, nullable = false)
-	private Long idProduct;
+	@Column(length = 64, name = "ID")
+	private Integer id;
+
+	@Column(name = "NAME")
+	private String name;
 
 	@Column(name = "DESCRIPTION")
 	private String description;
+	
+	@Column(name = "PRICE", precision=2)
+	private Double price;
 
-	@Column(name="COST")
-	private double cost;	
+	@ManyToOne
+	private Store store;
 	
-	@OneToMany
-	private Set<ClientOrders> clientOrders; 
-	
-	public Long getId() {
-		return this.idProduct;
-	}
-	
-	public Product(String description, double cost) {
+	public Product(Integer id, String name, String description, Double price, Store store) {
 		super();
+		this.id = id;
+		this.name = name;
 		this.description = description;
-		this.cost = cost;
+		this.price = price;
+		this.store = store;
 	}
-	
+
+	public Product(String name, String description, Double price, Store store) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.store = store;
+	}
+
 	public Product() {
 		super();
 	}
 
-	public void setId(final Long id) {
-		this.idProduct = id;
+	public String getName() {
+		return name;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Product)) {
-			return false;
-		}
-		Product other = (Product) obj;
-		if (idProduct != null) {
-			if (!idProduct.equals(other.idProduct)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idProduct == null) ? 0 : idProduct.hashCode());
-		return result;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -82,38 +70,28 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public double getCost() {
-		return cost;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (description != null && !description.trim().isEmpty())
-			result += "description: " + description;
-		DecimalFormat df = new DecimalFormat("$#.##");
-		result += ", cost: " + df.format(cost);
-		return result;
+	public Store getStore() {
+		return store;
 	}
 
-	public Long getIdProduct() {
-		return idProduct;
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
-	public void setIdProduct(Long idProduct) {
-		this.idProduct = idProduct;
+	public Double getPrice() {
+		return price;
 	}
 
-	public Set<ClientOrders> getClientOrders() {
-		return clientOrders;
-	}
-
-	public void setClientOrders(Set<ClientOrders> clientOrders) {
-		this.clientOrders = clientOrders;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 }

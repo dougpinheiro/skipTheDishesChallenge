@@ -17,17 +17,10 @@ public class Cousine implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public Cousine(Integer id, String type, List<StoreCousine> storecousine) {
+	public Cousine(Integer id, String type) {
 		super();
 		this.id = id;
 		this.type = type;
-		this.storecousine = storecousine;
-	}
-
-	public Cousine(String type, List<StoreCousine> storecousine) {
-		super();
-		this.type = type;
-		this.storecousine = storecousine;
 	}
 
 	public Cousine(String type) {
@@ -40,7 +33,7 @@ public class Cousine implements Serializable {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(length = 64, name = "ID")
 	private Integer id;
 
@@ -48,7 +41,7 @@ public class Cousine implements Serializable {
 	private String type;
 	
 	@OneToMany(mappedBy="cousine")
-	private List<StoreCousine> storecousine;
+	private List<Store> stores;
 	
 	public Integer getId() {
 		return this.id;
@@ -58,20 +51,20 @@ public class Cousine implements Serializable {
 		this.id = id;
 	}
 
-	public List<StoreCousine> getStorecousine() {
-		return storecousine;
-	}
-
-	public void setStorecousine(List<StoreCousine> storecousine) {
-		this.storecousine = storecousine;
-	}
-
 	public String getType() {
 		return type;
 	}
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<Store> getStores() {
+		return stores;
+	}
+
+	public void setStores(List<Store> stores) {
+		this.stores = stores;
 	}
 
 }

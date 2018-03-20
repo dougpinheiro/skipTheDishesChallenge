@@ -23,13 +23,15 @@ public class CousineController {
 	
 	@RequestMapping(value="/api/v1/Cousine", produces= {"application/json"}, method=RequestMethod.GET)
 	public ResponseEntity<List<Cousine>> findAll() {
-		List<Cousine> cousineList = (List<Cousine>) cousineRepository.findAll();
+		List<Cousine> cousineList = new ArrayList<Cousine>(0);
+		cousineList = (List<Cousine>) cousineRepository.findAll();
 		return new ResponseEntity<List<Cousine>>(cousineList, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/api/v1/Cousine/search/{searchText}", produces= {"application/json"}, method=RequestMethod.GET)
 	public ResponseEntity<List<Cousine>> search(@PathVariable("searchText") String searchText) {
-		List<Cousine> cousineList = (List<Cousine>) cousineRepository.findByTypeLikeIgnoreCase(searchText);
+		List<Cousine> cousineList = new ArrayList<Cousine>(0);
+		cousineList = (List<Cousine>) cousineRepository.findByTypeLikeIgnoreCase(searchText);
 		return new ResponseEntity<List<Cousine>>(cousineList, HttpStatus.OK);
 	}
 
@@ -37,8 +39,8 @@ public class CousineController {
 	public ResponseEntity<List<Store>> findAllStoresByCousineId(@PathVariable("cousineId") Integer id) {
 		Cousine cousine = cousineRepository.findById(id);
 		List<Store> stores = new ArrayList<Store>(0);
-		cousine.getStorecousine().stream().forEach((p) -> {
-			Store temp = p.getStore();
+		cousine.getStores().stream().forEach((p) -> {
+			Store temp = p;
 			System.out.println(temp.getName());
 			stores.add(temp);
 		});

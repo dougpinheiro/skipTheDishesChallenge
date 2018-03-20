@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import dougpinheiro.skip.challenge.model.entity.Customer;
 import dougpinheiro.skip.challenge.model.entity.Order;
 import dougpinheiro.skip.challenge.repository.OrderRepository;
 
-@RequestMapping
+@RestController
 public class OrderController {
 
 	@Autowired
@@ -23,13 +24,14 @@ public class OrderController {
 	
 	@RequestMapping(value="/api/v1/Order/{orderId}", produces= {"application/json"}, method=RequestMethod.GET)
 	public ResponseEntity<Order> findOrderById(@PathVariable("orderId") Integer orderId) {
-		Order o = orderRepository.findById(orderId).get();
+		Order o = orderRepository.findById(orderId).isPresent() ? orderRepository.findById(orderId).get() : new Order();
 		return new ResponseEntity<Order>(o, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/api/v1/Order", produces= {"application/json"}, method=RequestMethod.POST)
 	public ResponseEntity<Order> save(@RequestBody Order order) {
-		Order o = orderRepository.save(order);
+		Order o = new Order();
+		o = orderRepository.save(order);
 		return new ResponseEntity<Order>(o, HttpStatus.OK);
 	}
 

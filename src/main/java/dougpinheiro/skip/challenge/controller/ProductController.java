@@ -1,5 +1,6 @@
 package dougpinheiro.skip.challenge.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,21 @@ public class ProductController {
 	
 	@RequestMapping(value="/api/v1/Product", produces= {"application/json"}, method=RequestMethod.GET)
 	public ResponseEntity<List<Product>> findAllProducts(){
-		List<Product> products = productRepository.findAll();
+		List<Product> products = new ArrayList<Product>(0);
+		products = productRepository.findAll();
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/api/v1/Product/search/{searchText}", produces= {"application/json"}, method=RequestMethod.GET)
 	public ResponseEntity<List<Product>> search(@PathVariable("searchText") String searchText){
-		List<Product> products = productRepository.findByDescriptionLikeIgnoreCase(searchText);
+		List<Product> products = new ArrayList<Product>(0); 
+		products = productRepository.findByDescriptionLikeIgnoreCase(searchText);
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/api/v1/Product/{productId}", produces= {"application/json"}, method=RequestMethod.GET)
-	public ResponseEntity<Product> findProductById(@PathVariable("pruductId") Integer id){
-		Product product = productRepository.findById(id).get();
+	public ResponseEntity<Product> findProductById(@PathVariable("productId") Integer id){
+		Product product = productRepository.findById(id).isPresent() ? productRepository.findById(id).get() : new Product();
 		return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
 	

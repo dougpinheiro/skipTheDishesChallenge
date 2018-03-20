@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -17,7 +19,7 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(length = 64, name = "ID")
 	private Integer id;
 
@@ -30,7 +32,8 @@ public class Product implements Serializable {
 	@Column(name = "PRICE", precision=2)
 	private Double price;
 
-	@ManyToOne
+	@OneToOne
+	@JsonIgnore
 	private Store store;
 	
 	public Product(Integer id, String name, String description, Double price, Store store) {

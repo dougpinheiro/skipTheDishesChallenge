@@ -19,15 +19,13 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(length = 64, name = "ID")
 	private Integer id;
 
 	@Column(name = "DATE")
 	private String date;
 
-	@ManyToOne
-	private Customer customer;
 
 	@Column(name = "DELIVERYADDRESS")
 	private String deliveryAddress;
@@ -35,9 +33,6 @@ public class Order implements Serializable {
 	@Column(name = "CONTACT")
 	private String contact;
 	
-	@ManyToOne
-	private Store store;
-
 	@Column(name = "TOTAL")
 	private double total;
 
@@ -46,8 +41,14 @@ public class Order implements Serializable {
 
 	@Column(name = "LASTUPDATE")
 	private String lastUpdate;
+
+	@ManyToOne
+	private Store store;
 	
-	@OneToMany
+	@ManyToOne
+	private Customer customer;
+	
+	@OneToMany(mappedBy="order")
 	private List<OrderItem> orderItems;
 
 	public Order(Integer id, String date, Customer customer, String deliveryAddress, String contact, Store store,

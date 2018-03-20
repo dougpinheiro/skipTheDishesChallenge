@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import dougpinheiro.skip.challenge.model.data.Authentication;
 import dougpinheiro.skip.challenge.model.entity.Customer;
 import dougpinheiro.skip.challenge.repository.CustomerRepository;
-import dougpinheiro.skip.challenge.repository.LoginRepository;
 
 @RestController
 public class CustomerController {
@@ -26,15 +25,14 @@ public class CustomerController {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@Autowired
-	private LoginRepository loginRepository;
-	
 	@RequestMapping(value="/api/v1/Customer/auth", produces= {"application/json"}, method=RequestMethod.POST)
 	public ResponseEntity<Authentication> auth(@RequestParam("email") String email, @RequestParam("password") String password) {
 		Authentication auth = new Authentication();
 		try {
-			auth = new Authentication();  
-			auth.setLogged(!loginRepository.findByLoginAndPassword(email, new String(Base64.getEncoder().encode(MessageDigest.getInstance("MD5").digest(password.getBytes())))).isEmpty());
+			auth = new Authentication();
+			boolean logged = !customerRepository
+					.findByEmailAndPassword(email, new String(Base64.getEncoder().encode(MessageDigest.getInstance("MD5").digest(password.getBytes())))).isEmpty();
+			auth.setLogged(logged);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}

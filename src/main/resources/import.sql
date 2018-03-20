@@ -27,9 +27,22 @@ INSERT INTO `skip`.`storecousine`(`id`,`cousine_id`,`store_id`) VALUES (7,3,7);
 INSERT INTO `skip`.`storecousine`(`id`,`cousine_id`,`store_id`) VALUES (8,4,8);
 INSERT INTO `skip`.`storecousine`(`id`,`cousine_id`,`store_id`) VALUES (9,5,9);
 
-INSERT INTO `skip`.`customer`(`id`,`address`,`creation`,`email`,`name`) VALUES (1,"Address Test number 1","2018-03-19T23:33:28.580Z","test@test.com","Test User");
+INSERT INTO `skip`.`customer`(`id`, `address`,`creation`,`email`,`name`, `password`) VALUES (1, "Address Test number 1","2018-03-19T23:33:28.580Z","test@test.com","Test User", "gnzLDuqKcGxMNKFokfhOew==");
 
-INSERT INTO `skip`.`login`(`id`,`login`,`password`,`customer_id`) VALUES (1,"teste@teste.com","gnzLDuqKcGxMNKFokfhOew==",1);
+INSERT INTO `skip`.`clientorder`(`id`, `contact`,`date`,`deliveryaddress`,`lastupdate`,`status`,`total`,`customer_id`,`store_id`) VALUES (1, "Contact test","2018-03-19T23:33:28.580Z","Test Avenue 1","2018-03-19T23:33:28.580Z","NEW", 10.3, 1, 6);
+
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (1,"Big Mac Combo","Big Mac",5.00,6);
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (2,"Spaghetti Al Freddo","Spaghetti",5.00,2);
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (3,"Big Mac","Big Mac",3.50,4);
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (4,"Big Fish","Big Mac",4.14,5);
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (5,"Quarter Pounder","Big Mac",6.01,5);
+INSERT INTO `skip`.`product` (`id`,`description`,`name`,`price`,`store_id`) VALUES (6,"Harumaki","Sushi",14.99,8);
+
+INSERT INTO `skip`.`orderitem`(`id`,`price`,`quantity`,`total`,`order_id`,`product_id`) VALUES (1,6.01,10,60.10,1,5);
+
+
+
+
 
 
 

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,7 +19,7 @@ public class Store implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(length = 64, name = "ID")
 	private Integer id;
 	
@@ -28,11 +29,11 @@ public class Store implements Serializable {
 	@OneToMany
 	private List<Order> orders;
 	
-	@OneToMany
+	@OneToMany(mappedBy="store")
 	private List<Product> products;
 	
-	@OneToMany
-	private List<StoreCousine> storeCousine;
+	@ManyToOne
+	private Cousine cousine;
 	
 	public Store(Integer id, String name) {
 		super();
@@ -81,12 +82,12 @@ public class Store implements Serializable {
 		this.products = products;
 	}
 
-	public List<StoreCousine> getStoreCousine() {
-		return storeCousine;
+	public Cousine getCousine() {
+		return cousine;
 	}
 
-	public void setStoreCousine(List<StoreCousine> storeCousine) {
-		this.storeCousine = storeCousine;
+	public void setCousine(Cousine cousine) {
+		this.cousine = cousine;
 	}
 	
 }

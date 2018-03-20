@@ -8,23 +8,26 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import dougpinheiro.skip.challenge.controller.CustomerController;
+
 @SpringBootApplication
 public class ChallengeApplication {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		ApplicationContext ctx = SpringApplication.run(ChallengeApplication.class, args);
 		System.out.println(new String(Base64.getEncoder().encode(MessageDigest.getInstance("MD5").digest(new String("12345").getBytes()))));
-		/*AuthenticationController ac = (AuthenticationController) ctx.getBean("authenticationController");
+		
+		
+		
+		CustomerController ac = (CustomerController) ctx.getBean("customerController");
 		
 		
 		System.out.println("#################################################################");
 		System.out.println("Testing the login method...");
-		if(ac.login(new Login("douglas", "pinheiro"))) {
-			System.out.println("User logged!");			
-		}else {
-			System.out.println("User not logged!");						
-		}
+		System.out.println(ac.auth("test@test.com", "12345"));
 		System.out.println("#################################################################\n\n\n");
+		
+		/*
 		System.out.println("#################################################################");
 		System.out.println("Inserting products...");
 		

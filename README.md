@@ -12,7 +12,7 @@
 	
 # Database configuration
 
-**	Database: MySQL **
+**Database: MySQL**
 *	spring.datasource.url = jdbc:mysql://localhost:3306/skip?useSSL=false
 *	spring.datasource.username = skip
 *	spring.datasource.password = skip
